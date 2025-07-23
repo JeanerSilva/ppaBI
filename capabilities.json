@@ -1,0 +1,24 @@
+{
+  "objects": {
+    "apiSettings": {
+      "displayName": "API Settings",
+      "properties": {
+        "openAiKey": {
+          "displayName": "OpenAI API Key",
+          "type": { "text": true }
+        },
+        "nome": {
+          "displayName": "Modelo",
+          "type": { "text": true }
+        },
+        "systemPrompt": {
+          "displayName": "System Prompt",
+          "type": { "text": true }
+        }
+      }
+    }
+  },
+  "privileges": [
+    { "name": "WebAccess" }
+  ]
+}
