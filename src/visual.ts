@@ -16,78 +16,93 @@ export class Visual implements IVisual {
     private output: HTMLElement;
     private settings: VisualSettings;
     private apiKey: string = "";
-    private systemPrompt: string = "";
-    private nome: string = "gpt-4o";
+    private assistantId: string = "";
+    private threadId: string = "";
 
     constructor(options: VisualConstructorOptions) {
         this.container = document.createElement("div");
         this.container.style.padding = "8px";
         this.container.style.fontFamily = "Segoe UI, sans-serif";
-        this.container.style.fontSize = "13px";
 
         const input = document.createElement("input");
         input.type = "text";
-        input.placeholder = "Faça sua pergunta...";
+        input.placeholder = "Pergunte ao assistente com arquivos...";
         input.style.width = "300px";
-        input.style.marginRight = "10px";
         input.style.padding = "4px";
         input.style.border = "1px solid #ccc";
         input.style.borderRadius = "3px";
 
         const button = document.createElement("button");
         button.innerText = "Enviar";
-        button.style.backgroundColor = "#666";
-        button.style.color = "white";
+        button.style.marginLeft = "8px";
+        button.style.padding = "5px 10px";
         button.style.border = "none";
         button.style.borderRadius = "3px";
-        button.style.padding = "5px 10px";
-        button.style.cursor = "pointer";
+        button.style.backgroundColor = "#444";
+        button.style.color = "white";
 
         this.output = document.createElement("div");
         this.output.style.marginTop = "10px";
         this.output.style.whiteSpace = "pre-wrap";
-        this.output.style.border = "1px solid #e0e0e0";
+        this.output.style.backgroundColor = "#f0f0f0";
         this.output.style.padding = "10px";
+        this.output.style.border = "1px solid #ccc";
         this.output.style.borderRadius = "3px";
-        this.output.style.backgroundColor = "#fafafa";
-        this.output.style.color = "#333";
 
-        button.onclick = () => {
+        button.onclick = async () => {
             const pergunta = input.value.trim();
-            if (!pergunta) {
-                this.output.innerText = "Digite uma pergunta.";
-                return;
-            }
-            if (!this.apiKey) {
-                this.output.innerText = "Chave da API não configurada.";
+            if (!pergunta || !this.apiKey || !this.assistantId || !this.threadId) {
+                this.output.innerText = "Preencha todos os campos no painel de formatação.";
                 return;
             }
 
-            this.output.innerText = "Consultando ...";
+            this.output.innerText = "Consultando o assistente...";
 
-            fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${this.apiKey}`
-                },
-                body: JSON.stringify({
-                    model: this.nome,
-                    messages: [
-                        { role: "system", content: this.systemPrompt },
-                        { role: "user", content: pergunta }
-                    ]
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                const resposta = data.choices?.[0]?.message?.content;
-                this.output.innerText = resposta || "Resposta não encontrada.";
-            })
-            .catch(err => {
+            try {
+                await fetch(`https://api.openai.com/v1/threads/${this.threadId}/messages`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        role: "user",
+                        content: pergunta
+                    })
+                });
+
+                const runResp = await fetch(`https://api.openai.com/v1/threads/${this.threadId}/runs`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        assistant_id: this.assistantId
+                    })
+                });
+                const runData = await runResp.json();
+
+                let status = "queued";
+                while (status !== "completed" && status !== "failed") {
+                    await new Promise(r => setTimeout(r, 1500));
+                    const check = await fetch(`https://api.openai.com/v1/threads/${this.threadId}/runs/${runData.id}`, {
+                        headers: { "Authorization": `Bearer ${this.apiKey}` }
+                    });
+                    const res = await check.json();
+                    status = res.status;
+                }
+
+                const msgResp = await fetch(`https://api.openai.com/v1/threads/${this.threadId}/messages`, {
+                    headers: { "Authorization": `Bearer ${this.apiKey}` }
+                });
+                const msgData = await msgResp.json();
+                const resposta = msgData.data.find(m => m.role === "assistant")?.content?.[0]?.text?.value;
+                this.output.innerText = resposta || "Sem resposta.";
+            } catch (err) {
                 console.error(err);
-                this.output.innerText = "Erro na consulta à API.";
-            });
+                this.output.innerText = "Erro ao consultar assistente.";
+            }
         };
 
         this.container.appendChild(input);
@@ -98,10 +113,9 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         this.settings = VisualSettings.parse<VisualSettings>(options.dataViews?.[0]);
-        this.apiKey = this.settings?.apiSettings?.openAiKey || "";
-        this.systemPrompt = this.settings?.apiSettings?.systemPrompt || "Você é um assistente útil no Power BI.";
-        this.nome = this.settings?.apiSettings?.nome || "gpt-4o";
-
+        this.apiKey = this.settings.apiSettings.openAiKey || "";
+        this.assistantId = this.settings.apiSettings.assistantId || "";
+        this.threadId = this.settings.apiSettings.threadId || "";
     }
 
     public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstanceEnumeration {
@@ -110,10 +124,9 @@ export class Visual implements IVisual {
             return [{
                 objectName: options.objectName,
                 properties: {
-                    nome: settings.apiSettings.nome,
                     openAiKey: settings.apiSettings.openAiKey,
-                    systemPrompt: settings.apiSettings.systemPrompt
-                    
+                    assistantId: settings.apiSettings.assistantId,
+                    threadId: settings.apiSettings.threadId
                 },
                 selector: null
             }];

@@ -14,6 +14,14 @@
         "systemPrompt": {
           "displayName": "System Prompt",
           "type": { "text": true }
+        },
+        "assistantId": {
+          "displayName": "Assistant ID",
+          "type": { "text": true }
+        },
+        "threadId": {
+          "displayName": "Thread ID",
+          "type": { "text": true }
         }
       }
     }
