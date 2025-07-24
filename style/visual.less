@@ -1,20 +1,91 @@
 
+@font-family: "Segoe UI", sans-serif;
+@primary-bg: #f8f8f8;
+@text-color: #333;
+
+.root {
+    font-family: @font-family;
+    font-size: 14px;
+    background-color: @primary-bg;
+    color: @text-color;
+}
+
+.chat-input {
+  resize: none;
+  padding: 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+}
+
 .chat-container {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  word-break: break-word;
+  user-select: text;
 }
 
-.chat-input {
-  resize: none;
-  padding: 6px;
-  font-family: 'Courier New', monospace;
+.chat-output {
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   word-break: break-word;
+  white-space: pre-wrap;
+  padding-top: 8px;
+  user-select: text;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  user-select: text;
+}
+
+/* Áreas de saída */
+.chat-status,
+.chat-result,
+.chat-debug {
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  flex: 1 1 auto;
+  padding: 8px;
+  border-left: 2px solid #ccc;
+  user-select: text;
+}
+
+
+button {
+  background-color: #3b3e41;
+  border: none;
+  color: white;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+  width: auto;          // ← garante que o botão não ocupe 100%
+  max-width: 200px;     // ← opcional: limita largura máxima
+  align-self: flex-start; // ← alinha à esquerda no flex container
+
+  &:hover {
+    background-color: #106ebe;
+  }
+
+  &:active {
+    background-color: #005a9e;
+  }
+
+  &:disabled {
+    background-color: #c8c8c8;
+    cursor: default;
+  }
 }
 
 .chat-buttons {
@@ -43,31 +114,5 @@
   &:active {
     background-color: #005a9e;
   }
-
-  &:disabled {
-    background-color: #c8c8c8;
-    cursor: not-allowed;
-  }
 }
 
-/* Áreas de saída */
-.chat-status,
-.chat-result,
-.chat-debug {
-  overflow-x: auto;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  flex: 1 1 auto;
-  padding: 6px;
-  margin-top: 6px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  max-height: 150px;
-}
-
-.chat-debug {
-  background-color: #f9f9f9;
-  font-size: 12px;
-  color: #666;
-}
