@@ -1,0 +1,52 @@
+{
+  "objects": {
+    "apiSettings": {
+      "displayName": "API Settings",
+      "description": "Configurações para conectar à API OpenAI",
+      "displayNameKey": "Visual_ApiSettings",
+      "descriptionKey": "Visual_ApiSettings_Description",
+      "properties": {
+        "openAiKey": {
+          "displayName": "OpenAI API Key",
+          "description": "Chave da API para autenticação com OpenAI",
+          "displayNameKey": "Visual_OpenAIKey",
+          "descriptionKey": "Visual_OpenAIKey_Description",
+          "type": { "text": true }
+        },
+        "modelo": {
+          "displayName": "Modelo",
+          "description": "Modelo da OpenAI a ser usado",
+          "displayNameKey": "Visual_Modelo",
+          "descriptionKey": "Visual_Modelo_Description",
+          "type": { "text": true }
+        },
+        "assistantId": {
+          "displayName": "Assistant ID",
+          "description": "ID do assistente a ser usado",
+          "displayNameKey": "Visual_AssistantID",
+          "descriptionKey": "Visual_AssistantID_Description",
+          "type": { "text": true }
+        },
+        "debug": {
+          "displayName": "Debug",
+          "description": "Ativa ou desativa o modo de debug",
+          "displayNameKey": "Visual_Debug",
+          "descriptionKey": "Visual_Debug_Description",
+          "type": { "text": true }
+        },
+        "fontSize": {
+          "displayName": "Tamanho da Fonte",
+          "description": "Tamanho da fonte para exibição",
+          "displayNameKey": "Visual_FontSize",
+          "descriptionKey": "Visual_FontSize_Description",
+          "type": { "numeric": true }
+        }
+      }
+    }
+  },
+  "privileges": [
+    {
+      "name": "WebAccess"
+    }
+  ]
+}

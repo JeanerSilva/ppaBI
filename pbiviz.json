@@ -1,0 +1,29 @@
+{
+  "visual": {
+    "name": "Chat PPA",
+    "displayName": "Chat PPA",
+    "guid": "ChatPPA123456",
+    "visualClassName": "Visual",
+    "version": "1.0.0.0",
+    "description": "Chat PPA com ChatGPT",
+    "supportUrl": "https://openai.com",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "5.3.0",
+  "author": {
+    "name": "Ministério do Planejamento e Orçamento",
+    "email": "exemplo@openai.com"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "resources": {
+    "script": "dist/visual.js",
+    "css": "style/visual.css"
+  },
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": null,
+  "stringResources": [],
+  "version": "1.0.0.0"
+}
