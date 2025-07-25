@@ -11,6 +11,7 @@ import VisualObjectInstance = powerbi.VisualObjectInstance;
 import DataViewObjects = powerbi.DataViewObjects;
 
 import "./../style/visual.less";
+import { marked } from "marked";
 
 export class Visual implements IVisual {
     private target: HTMLElement;
