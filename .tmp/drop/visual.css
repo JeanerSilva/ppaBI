@@ -96,4 +96,13 @@ button:disabled {
 .chat-buttons button:active {
   background-color: #005a9e;
 }
+/* Auto-generated styles from visual.ts */
+.custom-style-1 {
+  font-size: 14px;
+}
+/* Additional extracted inline styles */
+.custom-style-extra {
+  margin: 0;
+  line-height: 1.3em;
+}
 

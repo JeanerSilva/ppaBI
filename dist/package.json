@@ -5,10 +5,10 @@
 			{
 				"resourceId": "rId0",
 				"sourceType": 5,
-				"file": "resources/ChatPPA123456.pbiviz.json"
+				"file": "resources/ChatPPARAG123456.pbiviz.json"
 			}
 		],
-		"visual": {"name":"Chat PPA","displayName":"Chat PPA","guid":"ChatPPA123456","visualClassName":"Visual","version":"1.0.0.0","description":"Chat PPA com ChatGPT","supportUrl":"https://openai.com","gitHubUrl":""},
+		"visual": {"name":"Chat PPA RAG","displayName":"Chat PPA","guid":"ChatPPARAG123456","visualClassName":"Visual","version":"1.0.0.0","description":"Chat PPA com ChatGPT","supportUrl":"https://openai.com","gitHubUrl":""},
 		"metadata": {
 			"pbivizjson": {
 				"resourceId": "rId0"

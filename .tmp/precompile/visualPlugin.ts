@@ -5,8 +5,8 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 import DialogConstructorOptions = powerbiVisualsApi.extensibility.visual.DialogConstructorOptions;
 var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
-var ChatPPA123456: IVisualPlugin = {
-    name: 'ChatPPA123456',
+var ChatPPARAG123456: IVisualPlugin = {
+    name: 'ChatPPARAG123456',
     displayName: 'Chat PPA',
     class: 'Visual',
     apiVersion: '5.3.0',
@@ -27,6 +27,6 @@ var ChatPPA123456: IVisualPlugin = {
 if (typeof powerbi !== "undefined") {
     powerbi.visuals = powerbi.visuals || {};
     powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-    powerbi.visuals.plugins["ChatPPA123456"] = ChatPPA123456;
+    powerbi.visuals.plugins["ChatPPARAG123456"] = ChatPPARAG123456;
 }
-export default ChatPPA123456;
+export default ChatPPARAG123456;

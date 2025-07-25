@@ -1,8 +1,8 @@
 {
   "visual": {
-    "name": "Chat PPA",
+    "name": "Chat PPA RAG",
     "displayName": "Chat PPA",
-    "guid": "ChatPPA123456",
+    "guid": "ChatPPARAG123456",
     "visualClassName": "Visual",
     "version": "1.0.0.0",
     "description": "Chat PPA com ChatGPT",

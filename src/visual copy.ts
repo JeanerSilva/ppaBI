@@ -113,23 +113,10 @@ export class Visual implements IVisual {
             this.logOutput("⏳ Criando nova thread...", "status");
 
             try {
-                const threadResp = await 
-fetch(this.proxyUrl, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        url: "https://api.openai.com/v1/threads",
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${this.apiKey}`,
-            "Content-Type": "application/json",
-            "OpenAI-Beta": "assistants=v2"
-        }
-    }),
-    signal: this.abortController.signal
-})`,
+                const threadResp = await fetch("https://api.openai.com/v1/threads", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
                         "Content-Type": "application/json",
                         "OpenAI-Beta": "assistants=v2"
                     },
@@ -141,27 +128,10 @@ fetch(this.proxyUrl, {
                 this.logOutput("📤 Enviando pergunta...", "status");
                 if (this.debug == "true") this.logOutput("Thread ID: " + threadId, "debug");
 
-                await 
-fetch(this.proxyUrl, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        url: `https://api.openai.com/v1/threads/${threadId}/messages`,
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${this.apiKey}`,
-            "Content-Type": "application/json",
-            "OpenAI-Beta": "assistants=v2"
-        },
-        body: {
-            role: "user",
-            content: this.textarea.value
-        }
-    }),
-    signal: this.abortController.signal
-})`,
+                await fetch(`https://api.openai.com/v1/threads/${threadId}/messages`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
                         "Content-Type": "application/json",
                         "OpenAI-Beta": "assistants=v2"
                     },
@@ -169,26 +139,10 @@ fetch(this.proxyUrl, {
                     signal: this.abortController.signal
                 });
 
-                const runResp = await 
-fetch(this.proxyUrl, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        url: `https://api.openai.com/v1/threads/${threadId}/runs`,
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${this.apiKey}`,
-            "Content-Type": "application/json",
-            "OpenAI-Beta": "assistants=v2"
-        },
-        body: {
-            assistant_id: this.assistantId
-        }
-    }),
-    signal: this.abortController.signal
-})`,
+                const runResp = await fetch(`https://api.openai.com/v1/threads/${threadId}/runs`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
                         "Content-Type": "application/json",
                         "OpenAI-Beta": "assistants=v2"
                     },
@@ -215,27 +169,9 @@ fetch(this.proxyUrl, {
                     attempts++;
                 } while (runStatus !== "completed" && attempts < 20);
 
-                const msgRespFinal = await 
-fetch(this.proxyUrl, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        url: `https://api.openai.com/v1/threads/${threadId}/messages`,
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${this.apiKey}`,
-            "Content-Type": "application/json",
-            "OpenAI-Beta": "assistants=v2"
-        },
-        body: {
-            role: "user",
-            content: this.textarea.value
-        }
-    }),
-    signal: this.abortController.signal
-})`,
+                const msgRespFinal = await fetch(`https://api.openai.com/v1/threads/${threadId}/messages`, {
+                    headers: {
+                        "Authorization": `Bearer ${this.apiKey}`,
                         "OpenAI-Beta": "assistants=v2"
                     },
                     signal: this.abortController.signal
